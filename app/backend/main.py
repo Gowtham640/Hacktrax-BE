@@ -23,3 +23,9 @@ async def startup_event() -> None:
 @app.get("/")
 async def health_check() -> dict[str, str]:
     return {"status": "ok", "message": "Hacktrax backend is ready to receive responses."}
+
+
+@app.get("/kaithhealthcheck")
+@app.get("/kaithheathcheck")
+def leapcell_health_check() -> dict[str, str]:
+    return {"status": "ok"}
