@@ -15,5 +15,8 @@ if not MONGO_URI:
     raise RuntimeError("MONGO_URI must be set in the environment.")
 
 DATABASE_NAME = os.getenv("MONGO_DB_NAME", "alexa")
+PASSWORD = os.getenv("PASSWORD")
+if not PASSWORD:
+    raise RuntimeError("PASSWORD must be set in the environment.")
 
 logger.info("Configuration loaded: database=%s", DATABASE_NAME)

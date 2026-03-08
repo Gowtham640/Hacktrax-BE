@@ -5,14 +5,12 @@ import logging
 from fastapi import FastAPI
 
 from app.backend import config
-from app.backend.api.routes.v1.responses import router as responses_router
 from app.backend.api.routes.v1.teams import router as teams_router
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 
 app = FastAPI(title="Hacktrax Backend", version="0.1.0")
-app.include_router(responses_router)
 app.include_router(teams_router)
 
 @app.on_event("startup")

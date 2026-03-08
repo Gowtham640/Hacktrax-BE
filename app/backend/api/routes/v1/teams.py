@@ -2,13 +2,19 @@ from __future__ import annotations
 
 import logging
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, Header, HTTPException
 
 from app.backend.models.team import TeamSubmission
 from app.backend.services.team_service import list_teams, register_team
+from app.backend import config
 
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/v1", tags=["teams"])
+
+
+def validate_password(password: str = Header(..., alias="X-Password")) -> None:
+    if password != config.PASSWORD:
+        raise HTTPException(status_code=401, detail="Invalid password header.")
 
 
 @router.post("/teams", summary="Register a hackathon team with validated members.")
@@ -28,6 +34,6 @@ async def create_team(team: TeamSubmission) -> dict[str, str]:
 
 
 @router.get("/teams", summary="List all registered teams.")
-async def get_teams() -> dict[str, list[dict]]:
+async def get_teams(password: None = Depends(validate_password)) -> dict[str, list[dict]]:
     teams = await list_teams()
     return {"teams": teams}
