@@ -19,4 +19,12 @@ PASSWORD = os.getenv("PASSWORD")
 if not PASSWORD:
     raise RuntimeError("PASSWORD must be set in the environment.")
 
-logger.info("Configuration loaded: database=%s", DATABASE_NAME)
+FRONTEND_ORIGIN = os.getenv("FRONTEND_ORIGIN", "*")
+if not FRONTEND_ORIGIN:
+    FRONTEND_ORIGIN = "*"
+
+logger.info(
+    "Configuration loaded: database=%s, frontend origin=%s",
+    DATABASE_NAME,
+    FRONTEND_ORIGIN,
+)
