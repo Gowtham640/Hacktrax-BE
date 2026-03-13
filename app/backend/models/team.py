@@ -35,8 +35,6 @@ class TeamSubmission(BaseModel):
         members: Iterable[TeamMember] = values.members
         seen_emails = set()
         seen_regs = set()
-        seen_transactions = set()
-
         for member in members:
             if member.email_id in seen_emails:
                 raise ValueError(f"Duplicate email in team: {member.email_id}")
@@ -45,8 +43,4 @@ class TeamSubmission(BaseModel):
             if member.registration_number in seen_regs:
                 raise ValueError(f"Duplicate registration number in team: {member.registration_number}")
             seen_regs.add(member.registration_number)
-        for transaction in values.transaction_id:
-            if transaction not in seen_transactions:
-                raise ValueError(f"Duplicate transaction ID found.")
-            seen_transactions.add(transaction)
         return values

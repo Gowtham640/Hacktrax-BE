@@ -30,9 +30,20 @@ async def ensure_no_existing_member(members: Iterable[TeamMember]) -> None:
         )
 
 
+async def ensure_unique_transaction(transaction_id: str) -> None:
+    """Prevent inserting a team with the same transaction id twice."""
+    query = {"transaction_id": transaction_id}
+    if await collection.count_documents(query):
+        raise HTTPException(
+            status_code=409,
+            detail="Duplicate transaction ID found.",
+        )
+
+
 async def register_team(team: TeamSubmission) -> ObjectId:
     try:
         await ensure_no_existing_member(team.members)
+        await ensure_unique_transaction(team.transaction_id)
         team_doc = team.dict()
         team_doc["leader_email"] = team.members[0].email_id
         insert_result = await collection.insert_one(team_doc)
