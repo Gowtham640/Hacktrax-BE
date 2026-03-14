@@ -9,7 +9,7 @@ def install_cors(app: FastAPI, allowed_origin: str | None) -> None:
     Attach the FastAPI CORSMiddleware so the frontend can POST and GET safely.
     """
 
-    origins = ["*"] if not allowed_origin or allowed_origin.strip() == "" else [allowed_origin]
+    origins = ["https://hacktrax-v2.alexadevsrm.org"] if not allowed_origin or allowed_origin.strip() == "" else [allowed_origin]
 
     app.add_middleware(
         CORSMiddleware,
