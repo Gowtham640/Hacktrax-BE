@@ -3,3 +3,6 @@ uvicorn
 python-dotenv
 motor
 email-validator
+celery 
+redis 
+sib-api-v3-sdk 
