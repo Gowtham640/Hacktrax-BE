@@ -26,7 +26,7 @@ def send_welcome_email(to_email: str, to_name: str):
 
     email = sib_api_v3_sdk.SendSmtpEmail(
         to=[{"email": to_email, "name": to_name}],
-        sender={"name": "Alexa Dev", "email": "meyyappan055@gmail.com"},
+        sender={"name": "Alexa Dev", "email": "alexadevelopers@gmail.com"},
         subject="Hello There",
         html_content=f"<h2>Hi {to_name}!</h2><p>Thanks for registering!</p>"
     )
