@@ -8,6 +8,7 @@ from pymongo.errors import PyMongoError
 
 from ..models.team import TeamMember, TeamSubmission
 from ..utils.mongo import db
+from .mail_service import send_welcome_email_task
 
 
 collection = db["hackathon_teams"]
@@ -47,6 +48,7 @@ async def register_team(team: TeamSubmission) -> ObjectId:
         team_doc = team.dict()
         team_doc["leader_email"] = team.members[0].email_id
         insert_result = await collection.insert_one(team_doc)
+        send_welcome_email_task.delay(team.members[0].email_id, team.members[0].name)
         return insert_result.inserted_id
     except PyMongoError as exc:
         raise HTTPException(status_code=503, detail="MongoDB unavailable.") from exc
